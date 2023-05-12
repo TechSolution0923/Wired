@@ -130,6 +130,5 @@ async function getArticlesGallery(page) {
     return { article, date }
 }
 
-
 // Start the scraping
 getQuotes();
