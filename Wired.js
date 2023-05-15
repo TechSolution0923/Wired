@@ -17,7 +17,6 @@ const getQuotes = async () => {
     // Open a new page
     const page = await browser.newPage();
 
-    // await page.setDefaultNavigationTimeout(0)
     await page.goto("https://www.wired.com/most-recent/", { waitUntil: "load", timeout: 0 });
 
     let results = [];
@@ -35,7 +34,7 @@ const getQuotes = async () => {
 
     for (let i = 0; i < results.length; i++) {
         console.log(results[i].url);
-        if (results[i].url && results[i].title) {
+        if (results[i].url != '' && results[i].title != '') {
 
             const nextUrl = results[i].url;
             let article = '';
@@ -48,13 +47,15 @@ const getQuotes = async () => {
                 article = await getArticlesGallery(page);
             }
 
-            const insertData = {
-                date: article.date,
-                title: results[i].title,
-                articles: article.article,
-                url: results[i].url
+            if (article.article != '' && article.date != '') {
+                const insertData = {
+                    date: article.date,
+                    title: results[i].title,
+                    articles: article.article,
+                    url: results[i].url
+                }
+                data.push(insertData)
             }
-            data.push(insertData)
         }
     }
 
